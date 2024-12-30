@@ -1,0 +1,26 @@
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.item_stock.view.*
+
+class StockAdapter(private val stocks: List<Stock>) : RecyclerView.Adapter<StockAdapter.StockViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_stock, parent, false)
+        return StockViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: StockViewHolder, position: Int) {
+        holder.bind(stocks[position])
+    }
+
+    override fun getItemCount(): Int = stocks.size
+
+    class StockViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(stock: Stock) {
+            itemView.txtSymbol.text = stock.symbol
+            itemView.txtPrice.text = stock.price
+        }
+    }
+}

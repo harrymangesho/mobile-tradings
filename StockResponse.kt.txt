@@ -1,0 +1,10 @@
+data class StockResponse(
+    val "Time Series (Daily)": Map<String, StockDetails>
+)
+
+data class StockDetails(
+    val open: String,
+    val close: String,
+    val high: String,
+    val low: String
+)

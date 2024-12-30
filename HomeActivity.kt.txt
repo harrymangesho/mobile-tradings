@@ -1,0 +1,31 @@
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+class HomeActivity : AppCompatActivity() {
+
+    private val stockApi = StockApiService.create()
+    private val apiKey = "D4Y8U7Z483RJQ8Y7"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = stockApi.getStockData(symbol = "AAPL", apiKey = D4Y8U7Z483RJQ8Y7)
+            val stockList = response["Time Series (Daily)"]?.map {
+                Stock(it.key, it.value.close)
+            } ?: emptyList()
+
+            runOnUiThread {
+                recyclerView.adapter = StockAdapter(stockList)
+            }
+        }
+    }
+}
